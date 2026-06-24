@@ -31,7 +31,7 @@ export const timeline = [
 ];
 
 export const skills: Record<string, string[]> = {
-  "Diller": ["Python", "C++", "Java"],
+  "Diller": ["Python", "C++"],
   "Framework / Kütüphaneler": ["React", "Next.js", "Node.js", "Spring Boot"],
   "Araçlar & Veritabanları": ["Git", "Docker", "PostgreSQL", "MongoDB", "Linux"],
 };
