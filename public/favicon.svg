@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="brand" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#34d399"/>
+      <stop offset="1" stop-color="#059669"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="15" fill="#0a0f0d"/>
+  <rect x="2.5" y="2.5" width="59" height="59" rx="13" fill="none" stroke="url(#brand)" stroke-width="2" opacity="0.55"/>
+  <text x="32" y="44" font-family="'Segoe UI', Arial, Helvetica, sans-serif" font-size="30" font-weight="800" letter-spacing="-1" text-anchor="middle" fill="url(#brand)">ND</text>
+  <circle cx="49.5" cy="42" r="2.6" fill="#34d399"/>
+</svg>
