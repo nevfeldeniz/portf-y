@@ -32,7 +32,7 @@
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
 
   <!-- Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
@@ -85,10 +85,48 @@
     .navlink:hover::after { width:100%; }
 
     html { scroll-padding-top: 80px; }
+
+    /* Display font for headings */
+    h1, h2, .display { font-family: 'Space Grotesk', 'Inter', sans-serif; }
+
+    /* Aurora / mesh gradient background (fixed, behind content) */
+    #aurora { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+    #aurora::before, #aurora::after {
+      content: ''; position: absolute; width: 70vw; height: 70vw; border-radius: 9999px; filter: blur(90px);
+    }
+    #aurora::before {
+      background: radial-gradient(circle, rgba(16,185,129,.22), transparent 60%);
+      top: -20vw; left: -10vw; animation: aurora1 18s ease-in-out infinite;
+    }
+    #aurora::after {
+      background: radial-gradient(circle, rgba(45,212,191,.16), transparent 60%);
+      bottom: -25vw; right: -10vw; animation: aurora2 22s ease-in-out infinite;
+    }
+    @keyframes aurora1 { 0%,100%{ transform: translate(0,0) scale(1); } 50%{ transform: translate(12vw,8vw) scale(1.15); } }
+    @keyframes aurora2 { 0%,100%{ transform: translate(0,0) scale(1); } 50%{ transform: translate(-10vw,-6vw) scale(1.1); } }
+
+    /* Spotlight that follows the cursor */
+    #spotlight {
+      position: fixed; inset: 0; z-index: 30; pointer-events: none; mix-blend-mode: screen;
+      background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 20%), rgba(16,185,129,.10), transparent 60%);
+      transition: background .08s ease;
+    }
+
+    /* Keep content above background layers */
+    header, main, footer { position: relative; z-index: 10; }
+
+    /* Glass + 3D tilt cards */
+    .card { transform-style: preserve-3d; will-change: transform; backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+
+    /* Typewriter caret */
+    #typed-caret { display: inline-block; width: 2px; height: 1.1em; background: #34d399; margin-left: 4px; vertical-align: -2px; animation: blink 1s steps(1) infinite; }
+    @keyframes blink { 50% { opacity: 0; } }
   </style>
 </head>
 <body class="font-sans antialiased">
 
+  <div id="aurora"></div>
+  <div id="spotlight"></div>
   <div id="progress"></div>
 
   <!-- ===== NAVBAR ===== -->
@@ -124,7 +162,9 @@
           <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight mb-4">
             Nevfel Deniz <span class="bg-gradient-to-r from-brand-400 to-brand-600 bg-clip-text text-transparent">Sürmeli</span>
           </h1>
-          <h2 class="text-xl md:text-2xl text-zinc-400 mb-6">Yazılım Mühendisi</h2>
+          <h2 class="text-xl md:text-2xl text-zinc-400 mb-6 display">
+            <span id="typed" class="text-brand-400"></span><span id="typed-caret"></span>
+          </h2>
           <p class="text-zinc-300 leading-relaxed mb-6 max-w-lg">
             Temiz kod yazmaya, ölçeklenebilir sistemler tasarlamaya ve problemi çözmeye tutkulu bir geliştiriciyim.
           </p>
@@ -201,7 +241,7 @@
         <p class="eyebrow mb-3">Çalışmalarım</p>
         <h2 class="text-3xl font-bold">Projeler</h2>
       </div>
-      <div class="reveal max-w-2xl mx-auto text-center bg-zinc-800/40 border border-dashed border-zinc-700 rounded-2xl p-12">
+      <div class="card reveal max-w-2xl mx-auto text-center bg-zinc-800/40 border border-dashed border-zinc-700 rounded-2xl p-12">
         <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-brand-500/10 text-brand-400 mb-6">
           <i data-lucide="rocket" class="w-8 h-8"></i>
         </div>
@@ -306,6 +346,41 @@
     };
     window.addEventListener("scroll", updateProgress, { passive: true });
     updateProgress();
+
+    // --- Typewriter effect (rotating roles) ---
+    const roles = ["Yazılım Mühendisi", "Backend Developer", "Python Developer", "Problem Çözücü"];
+    const typedEl = document.getElementById("typed");
+    let r = 0, c = 0, deleting = false;
+    (function tick() {
+      const word = roles[r];
+      c += deleting ? -1 : 1;
+      typedEl.textContent = word.slice(0, c);
+      if (!deleting && c === word.length) { deleting = true; return setTimeout(tick, 1600); }
+      if (deleting && c === 0) { deleting = false; r = (r + 1) % roles.length; }
+      setTimeout(tick, deleting ? 45 : 90);
+    })();
+
+    // --- Cursor spotlight ---
+    const spot = document.getElementById("spotlight");
+    window.addEventListener("pointermove", (e) => {
+      spot.style.setProperty("--mx", e.clientX + "px");
+      spot.style.setProperty("--my", e.clientY + "px");
+    }, { passive: true });
+
+    // --- 3D tilt on cards ---
+    document.querySelectorAll(".card").forEach(card => {
+      card.addEventListener("pointermove", (e) => {
+        const rect = card.getBoundingClientRect();
+        const px = (e.clientX - rect.left) / rect.width - 0.5;
+        const py = (e.clientY - rect.top) / rect.height - 0.5;
+        card.style.transition = "transform .05s linear";
+        card.style.transform = `perspective(800px) rotateX(${(-py * 7).toFixed(2)}deg) rotateY(${(px * 7).toFixed(2)}deg) translateY(-6px)`;
+      });
+      card.addEventListener("pointerleave", () => {
+        card.style.transition = "transform .4s ease";
+        card.style.transform = "";
+      });
+    });
   </script>
 </body>
 </html>
