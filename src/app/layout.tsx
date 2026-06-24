@@ -8,6 +8,9 @@ export const metadata: Metadata = {
   title: "Nevfel Deniz Sürmeli | Yazılım Mühendisi",
   description:
     "Temiz kod, ölçeklenebilir sistemler ve problem çözme odaklı yazılım mühendisi portföyü.",
+  icons: {
+    icon: "/favicon.svg",
+  },
 };
 
 export default function RootLayout({
