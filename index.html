@@ -162,9 +162,7 @@
           <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight mb-4">
             Nevfel Deniz <span class="bg-gradient-to-r from-brand-400 to-brand-600 bg-clip-text text-transparent">Sürmeli</span>
           </h1>
-          <h2 class="text-xl md:text-2xl text-zinc-400 mb-6 display">
-            <span id="typed" class="text-brand-400"></span><span id="typed-caret"></span>
-          </h2>
+          <h2 class="text-xl md:text-2xl text-brand-400 mb-6 display">Software Engineer</h2>
           <p class="text-zinc-300 leading-relaxed mb-6 max-w-lg">
             Temiz kod yazmaya, ölçeklenebilir sistemler tasarlamaya ve problemi çözmeye tutkulu bir geliştiriciyim.
           </p>
@@ -346,19 +344,6 @@
     };
     window.addEventListener("scroll", updateProgress, { passive: true });
     updateProgress();
-
-    // --- Typewriter effect (rotating roles) ---
-    const roles = ["Yazılım Mühendisi", "Backend Developer", "Python Developer", "Problem Çözücü"];
-    const typedEl = document.getElementById("typed");
-    let r = 0, c = 0, deleting = false;
-    (function tick() {
-      const word = roles[r];
-      c += deleting ? -1 : 1;
-      typedEl.textContent = word.slice(0, c);
-      if (!deleting && c === word.length) { deleting = true; return setTimeout(tick, 1600); }
-      if (deleting && c === 0) { deleting = false; r = (r + 1) % roles.length; }
-      setTimeout(tick, deleting ? 45 : 90);
-    })();
 
     // --- Cursor spotlight ---
     const spot = document.getElementById("spotlight");
