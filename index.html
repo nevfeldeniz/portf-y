@@ -39,31 +39,68 @@
 
   <style>
     body { background-color: #09090b; color: #f4f4f5; }
-    .reveal { opacity: 0; transform: translateY(24px); transition: opacity .6s ease, transform .6s ease; }
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1); }
     .reveal.show { opacity: 1; transform: translateY(0); }
     ::selection { background: #10b981; color: #09090b; }
-    /* Subtle gradient glow behind hero */
-    .glow::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(600px circle at 20% 20%, rgba(16,185,129,.12), transparent 40%);
-      pointer-events: none;
+
+    /* Scroll progress bar */
+    #progress { position: fixed; top: 0; left: 0; height: 3px; width: 0%; z-index: 60;
+      background: linear-gradient(90deg, #34d399, #10b981); transition: width .1s linear; }
+
+    /* Animated grid + glow background for hero */
+    .hero-bg { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+    .hero-bg .grid {
+      position: absolute; inset: -2px;
+      background-image: linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px);
+      background-size: 44px 44px;
+      mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 40%, transparent 75%);
+      -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 40%, transparent 75%);
     }
+    .blob { position: absolute; border-radius: 9999px; filter: blur(70px); opacity: .5; }
+    .blob.a { width: 420px; height: 420px; background: rgba(16,185,129,.30); top: -120px; left: -80px; animation: float1 9s ease-in-out infinite; }
+    .blob.b { width: 360px; height: 360px; background: rgba(52,211,153,.18); bottom: -120px; right: -60px; animation: float2 11s ease-in-out infinite; }
+    @keyframes float1 { 0%,100%{ transform: translate(0,0); } 50%{ transform: translate(30px,40px); } }
+    @keyframes float2 { 0%,100%{ transform: translate(0,0); } 50%{ transform: translate(-30px,-30px); } }
+
+    /* Card hover lift + glow */
+    .card { transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease; }
+    .card:hover { transform: translateY(-6px); box-shadow: 0 16px 40px -12px rgba(16,185,129,.25); border-color: rgba(16,185,129,.5); }
+
+    /* Eyebrow label */
+    .eyebrow { color: #34d399; font-size: 12px; letter-spacing: 3px; text-transform: uppercase; font-weight: 600; }
+
+    /* Available badge pulse dot */
+    .pulse { position: relative; }
+    .pulse::before { content:''; position:absolute; inset:0; border-radius:9999px; background:#34d399; opacity:.6; animation: ping 1.6s cubic-bezier(0,0,.2,1) infinite; }
+    @keyframes ping { 75%,100%{ transform: scale(2.2); opacity: 0; } }
+
+    /* Scroll-down chevron */
+    .scroll-cue { animation: bob 1.8s ease-in-out infinite; }
+    @keyframes bob { 0%,100%{ transform: translateY(0); } 50%{ transform: translateY(8px); } }
+
+    /* Nav link underline */
+    .navlink { position: relative; }
+    .navlink::after { content:''; position:absolute; left:0; bottom:-4px; height:2px; width:0; background:#10b981; transition: width .25s ease; }
+    .navlink:hover::after { width:100%; }
+
+    html { scroll-padding-top: 80px; }
   </style>
 </head>
 <body class="font-sans antialiased">
+
+  <div id="progress"></div>
 
   <!-- ===== NAVBAR ===== -->
   <header class="fixed top-0 inset-x-0 z-50 backdrop-blur bg-zinc-950/70 border-b border-zinc-800/60">
     <nav class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
       <a href="#hero" class="font-bold text-lg tracking-tight">NDS<span class="text-brand-500">.</span></a>
       <ul class="hidden md:flex items-center gap-8 text-sm text-zinc-400">
-        <li><a href="#about" class="hover:text-brand-400 transition">Hakkımda</a></li>
-        <li><a href="#timeline" class="hover:text-brand-400 transition">Yolculuk</a></li>
-        <li><a href="#skills" class="hover:text-brand-400 transition">Yetenekler</a></li>
-        <li><a href="#projects" class="hover:text-brand-400 transition">Projeler</a></li>
-        <li><a href="#contact" class="hover:text-brand-400 transition">İletişim</a></li>
+        <li><a href="#about" class="navlink hover:text-brand-400 transition">Hakkımda</a></li>
+        <li><a href="#timeline" class="navlink hover:text-brand-400 transition">Yolculuk</a></li>
+        <li><a href="#skills" class="navlink hover:text-brand-400 transition">Yetenekler</a></li>
+        <li><a href="#projects" class="navlink hover:text-brand-400 transition">Projeler</a></li>
+        <li><a href="#contact" class="navlink hover:text-brand-400 transition">İletişim</a></li>
       </ul>
       <a href="#contact" class="text-sm px-4 py-2 rounded-lg bg-brand-500 hover:bg-brand-600 text-zinc-950 font-medium transition">İletişime Geç</a>
     </nav>
@@ -71,15 +108,32 @@
 
   <main>
     <!-- ===== HERO ===== -->
-    <section id="hero" class="glow relative min-h-screen flex items-center px-6 lg:px-12 pt-20">
-      <div class="max-w-6xl mx-auto grid lg:grid-cols-2 gap-12 items-center w-full">
+    <section id="hero" class="relative min-h-screen flex items-center px-6 lg:px-12 pt-20 overflow-hidden">
+      <div class="hero-bg">
+        <div class="grid"></div>
+        <div class="blob a"></div>
+        <div class="blob b"></div>
+      </div>
+      <div class="max-w-6xl mx-auto grid lg:grid-cols-2 gap-12 items-center w-full relative">
         <div class="reveal">
+          <div class="inline-flex items-center gap-2 mb-5 px-3 py-1.5 rounded-full border border-brand-500/30 bg-brand-500/10 text-sm text-brand-400">
+            <span class="pulse w-2 h-2 rounded-full bg-brand-400 inline-block"></span>
+            Yeni fırsatlara ve iş birliklerine açık
+          </div>
           <p class="text-brand-400 font-medium mb-3">Merhaba, ben</p>
-          <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight mb-4">Nevfel Deniz Sürmeli</h1>
+          <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight mb-4">
+            Nevfel Deniz <span class="bg-gradient-to-r from-brand-400 to-brand-600 bg-clip-text text-transparent">Sürmeli</span>
+          </h1>
           <h2 class="text-xl md:text-2xl text-zinc-400 mb-6">Yazılım Mühendisi</h2>
-          <p class="text-zinc-300 leading-relaxed mb-8 max-w-lg">
+          <p class="text-zinc-300 leading-relaxed mb-6 max-w-lg">
             Temiz kod yazmaya, ölçeklenebilir sistemler tasarlamaya ve problemi çözmeye tutkulu bir geliştiriciyim.
           </p>
+          <div class="flex flex-wrap gap-2 mb-8">
+            <span class="px-3 py-1 rounded-full bg-zinc-800/70 border border-zinc-700 text-xs text-zinc-300">Python</span>
+            <span class="px-3 py-1 rounded-full bg-zinc-800/70 border border-zinc-700 text-xs text-zinc-300">Java</span>
+            <span class="px-3 py-1 rounded-full bg-zinc-800/70 border border-zinc-700 text-xs text-zinc-300">C++</span>
+            <span class="px-3 py-1 rounded-full bg-zinc-800/70 border border-zinc-700 text-xs text-zinc-300">Yakın Doğu Üniversitesi</span>
+          </div>
           <div class="flex flex-wrap items-center gap-4">
             <a href="#projects" class="px-6 py-3 rounded-lg bg-brand-500 hover:bg-brand-600 text-zinc-950 font-medium transition">Projelerimi Gör</a>
             <a href="public/cv.html" target="_blank" rel="noreferrer" class="px-6 py-3 rounded-lg border border-zinc-700 hover:border-brand-500 flex items-center gap-2 transition">
@@ -102,11 +156,15 @@
           </div>
         </div>
       </div>
+      <a href="#about" aria-label="Aşağı kaydır" class="scroll-cue absolute bottom-8 left-1/2 -translate-x-1/2 text-zinc-500 hover:text-brand-400 transition">
+        <i data-lucide="chevron-down" class="w-7 h-7"></i>
+      </a>
     </section>
 
     <!-- ===== ABOUT ===== -->
     <section id="about" class="py-24 px-6 bg-zinc-900/40 border-y border-zinc-800/60">
       <div class="max-w-3xl mx-auto text-center reveal">
+        <p class="eyebrow mb-3">Kimim</p>
         <h2 class="text-3xl font-bold mb-6">Hakkımda</h2>
         <p class="text-zinc-300 leading-relaxed text-lg">
           Yakın Doğu Üniversitesi'nde yazılım mühendisliği (İngilizce) eğitimi alıyorum. Backend, Frontend ve Full Stack
@@ -119,7 +177,10 @@
 
     <!-- ===== TIMELINE ===== -->
     <section id="timeline" class="py-24 px-6">
-      <h2 class="text-3xl font-bold text-center mb-16 reveal">Kariyer ve Eğitim Yolculuğu</h2>
+      <div class="reveal text-center mb-16">
+        <p class="eyebrow mb-3">Yolculuğum</p>
+        <h2 class="text-3xl font-bold">Kariyer ve Eğitim Yolculuğu</h2>
+      </div>
       <div id="timeline-list" class="max-w-2xl mx-auto relative">
         <div class="absolute left-4 md:left-1/2 top-0 bottom-0 w-0.5 bg-brand-500/30 -translate-x-1/2"></div>
       </div>
@@ -127,13 +188,19 @@
 
     <!-- ===== SKILLS ===== -->
     <section id="skills" class="py-24 px-6 bg-zinc-900/40 border-y border-zinc-800/60">
-      <h2 class="text-3xl font-bold text-center mb-16 reveal">Yetenekler</h2>
+      <div class="reveal text-center mb-16">
+        <p class="eyebrow mb-3">Neler Yapabilirim</p>
+        <h2 class="text-3xl font-bold">Yetenekler</h2>
+      </div>
       <div id="skills-grid" class="max-w-5xl mx-auto grid md:grid-cols-3 gap-8"></div>
     </section>
 
     <!-- ===== PROJECTS ===== -->
     <section id="projects" class="py-24 px-6">
-      <h2 class="text-3xl font-bold text-center mb-16 reveal">Projeler</h2>
+      <div class="reveal text-center mb-16">
+        <p class="eyebrow mb-3">Çalışmalarım</p>
+        <h2 class="text-3xl font-bold">Projeler</h2>
+      </div>
       <div class="reveal max-w-2xl mx-auto text-center bg-zinc-800/40 border border-dashed border-zinc-700 rounded-2xl p-12">
         <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-brand-500/10 text-brand-400 mb-6">
           <i data-lucide="rocket" class="w-8 h-8"></i>
@@ -148,6 +215,7 @@
     <!-- ===== CONTACT ===== -->
     <footer id="contact" class="py-24 px-6 bg-zinc-900/60 border-t border-zinc-800">
       <div class="max-w-2xl mx-auto text-center reveal">
+        <p class="eyebrow mb-3">İletişim</p>
         <h2 class="text-3xl font-bold mb-4">Birlikte çalışalım!</h2>
         <p class="text-zinc-400 mb-8">Bir fikriniz veya projeniz mi var? Bana ulaşmaktan çekinmeyin.</p>
         <div class="flex flex-wrap justify-center gap-4 mb-10">
@@ -203,7 +271,7 @@
     const sg = document.getElementById("skills-grid");
     Object.entries(skills).forEach(([cat, items]) => {
       const el = document.createElement("div");
-      el.className = "reveal bg-zinc-800/50 border border-zinc-700 rounded-xl p-6";
+      el.className = "card reveal bg-zinc-800/50 border border-zinc-700 rounded-xl p-6";
       el.innerHTML = `
         <h3 class="text-lg font-semibold mb-4 text-brand-400">${cat}</h3>
         <div class="flex flex-wrap gap-2">
@@ -228,6 +296,16 @@
       });
     }, { threshold: 0.12 });
     document.querySelectorAll(".reveal").forEach(el => observer.observe(el));
+
+    // --- Scroll progress bar ---
+    const progress = document.getElementById("progress");
+    const updateProgress = () => {
+      const h = document.documentElement;
+      const scrolled = (h.scrollTop) / (h.scrollHeight - h.clientHeight);
+      progress.style.width = (scrolled * 100) + "%";
+    };
+    window.addEventListener("scroll", updateProgress, { passive: true });
+    updateProgress();
   </script>
 </body>
 </html>
