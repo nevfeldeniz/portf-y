@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Mail, Github, Linkedin } from "lucide-react";
+import { Mail, Github, Linkedin, Phone } from "lucide-react";
 import { personalInfo } from "@/data/portfolio";
 
 export default function Contact() {
@@ -33,6 +33,12 @@ export default function Contact() {
             className="inline-flex items-center gap-2 px-6 py-3 rounded-lg border border-zinc-700 hover:border-brand-500 transition"
           >
             <Mail className="w-4 h-4" /> {personalInfo.schoolEmail}
+          </a>
+          <a
+            href={`tel:${personalInfo.phoneTel}`}
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-lg border border-zinc-700 hover:border-brand-500 transition"
+          >
+            <Phone className="w-4 h-4" /> {personalInfo.phone}
           </a>
         </div>
         <div className="flex justify-center gap-6 mb-10">
