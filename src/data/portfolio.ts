@@ -16,29 +16,29 @@ export const personalInfo = {
 
 export const timeline = [
   {
-    year: "2023",
-    title: "Yakın Doğu Üniversitesi",
-    description: "Yazılım/Bilgisayar Mühendisliği eğitimime başladım.",
+    year: "2023 — 2024",
+    title: "Hazırlık",
+    description: "Yakın Doğu Üniversitesi Yazılım Mühendisliği (İngilizce) hazırlık sınıfı.",
   },
   {
-    year: "2024",
-    title: "İlk Programlama Dili: Python",
+    year: "2024 — 2025",
+    title: "1. Sınıf · Python",
     description: "Python ile temel programlama, algoritmalar ve veri yapıları üzerine çalışmalar.",
   },
   {
-    year: "2025",
+    year: "2025 — 2026",
     title: "C++",
     description: "Nesne yönelimli programlama, bellek yönetimi ve veri yapıları üzerine çalışmalar.",
   },
   {
-    year: "2026 - Günümüz",
+    year: "2025 — 2026",
     title: "JavaScript",
     description: "Web geliştirme temelleri ve frontend çalışmalarına giriş.",
   },
   {
-    year: "2026 - Günümüz",
-    title: "Yakın Doğu Üniversitesi — 2. Sınıf",
-    description: "Yazılım mühendisliği eğitimime 2. sınıfta devam ediyorum; kendimi geliştirmeye ve yeni teknolojiler öğrenmeye odaklanıyorum.",
+    year: "2025 — 2026",
+    title: "2. Sınıf",
+    description: "Yazılım mühendisliği eğitimime 2. sınıfta devam ediyorum.",
   },
 ];
 
