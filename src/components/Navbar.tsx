@@ -3,8 +3,8 @@
 const links = [
   { href: "#about", label: "Hakkımda" },
   { href: "#timeline", label: "Yolculuk" },
-  { href: "#skills", label: "Yetenekler" },
   { href: "#projects", label: "Projeler" },
+  { href: "#skills", label: "Yetenekler" },
   { href: "#contact", label: "İletişim" },
 ];
 
