@@ -26,6 +26,16 @@ export const timeline = [
     description: "Python ile temel programlama, algoritmalar ve veri yapıları üzerine çalışmalar.",
   },
   {
+    year: "2025",
+    title: "C++",
+    description: "Nesne yönelimli programlama, bellek yönetimi ve veri yapıları üzerine çalışmalar.",
+  },
+  {
+    year: "2026 - Günümüz",
+    title: "JavaScript",
+    description: "Web geliştirme temelleri ve frontend çalışmalarına giriş.",
+  },
+  {
     year: "2026 - Günümüz",
     title: "Yakın Doğu Üniversitesi — 2. Sınıf",
     description: "Yazılım mühendisliği eğitimime 2. sınıfta devam ediyorum; kendimi geliştirmeye ve yeni teknolojiler öğrenmeye odaklanıyorum.",
