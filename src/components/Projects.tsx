@@ -1,28 +1,60 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Rocket } from "lucide-react";
+import { ExternalLink, Github } from "lucide-react";
+import { projects } from "@/data/portfolio";
 
 export default function Projects() {
   return (
     <section id="projects" className="py-24 px-6">
       <h2 className="text-3xl font-bold text-center mb-16">Projeler</h2>
-      <motion.div
-        initial={{ opacity: 0, y: 24 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5 }}
-        className="max-w-2xl mx-auto text-center bg-zinc-800/40 border border-dashed border-zinc-700 rounded-2xl p-12"
-      >
-        <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-brand-500/10 text-brand-400 mb-6">
-          <Rocket className="w-8 h-8" />
-        </div>
-        <h3 className="text-2xl font-semibold mb-3">Yakında eklenecek</h3>
-        <p className="text-zinc-400 leading-relaxed">
-          Şu anda yeni projeler üzerinde çalışıyorum. Geliştirdiğim projeleri
-          yakında burada paylaşacağım. Takipte kalın!
-        </p>
-      </motion.div>
+      <div className="max-w-4xl mx-auto grid md:grid-cols-2 gap-6">
+        {projects.map((project, i) => (
+          <motion.article
+            key={project.title}
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: i * 0.1 }}
+            className="bg-zinc-800/40 border border-zinc-700 rounded-2xl p-6 flex flex-col"
+          >
+            <h3 className="text-xl font-semibold mb-2">{project.title}</h3>
+            <p className="text-zinc-400 leading-relaxed text-sm mb-4 flex-1">
+              {project.description}
+            </p>
+            <div className="flex flex-wrap gap-2 mb-4">
+              {project.tags.map((tag) => (
+                <span
+                  key={tag}
+                  className="text-xs px-2.5 py-1 rounded-full bg-zinc-900 text-zinc-400 border border-zinc-700"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+            <div className="flex gap-4 text-sm">
+              <a
+                href={project.demo}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-1.5 text-zinc-300 hover:text-white transition"
+              >
+                <ExternalLink className="w-4 h-4" />
+                Canlı Site
+              </a>
+              <a
+                href={project.github}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-1.5 text-zinc-400 hover:text-zinc-200 transition"
+              >
+                <Github className="w-4 h-4" />
+                GitHub
+              </a>
+            </div>
+          </motion.article>
+        ))}
+      </div>
     </section>
   );
 }
