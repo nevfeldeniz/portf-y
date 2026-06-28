@@ -160,11 +160,7 @@
         <p class="section-label mb-2">Projects</p>
         <h2 class="text-xl font-semibold text-white">Projeler</h2>
       </div>
-      <div class="reveal card rounded-lg p-8 max-w-xl">
-        <p class="text-slate-400 text-[15px] leading-relaxed">
-          Projelerim şu anda geliştirme aşamasında. Tamamlandıkça bu bölüm güncellenecektir.
-        </p>
-      </div>
+      <div id="projects-grid" class="grid md:grid-cols-2 gap-5"></div>
     </section>
 
     <!-- Contact -->
@@ -210,6 +206,23 @@
       "Tools": ["Git", "PostgreSQL"],
     };
 
+    const projects = [
+      {
+        title: "Old Home Guest House",
+        description: "Lefkoşa'daki butik otel için modern, responsive tek sayfalık web sitesi. Oda tanıtımları, galeri, imkanlar ve iletişim bölümleri.",
+        tags: ["React", "Vite", "Tailwind CSS", "Framer Motion"],
+        demo: "https://nevfeldeniz.github.io/Oldhome/",
+        github: "https://github.com/nevfeldeniz/Oldhome",
+      },
+      {
+        title: "Kişisel Portföy Sitesi",
+        description: "Yazılım mühendisliği portföyüm; hakkımda, yetenekler, projeler, CV indirme ve iletişim bölümlerini içeren statik web sitesi.",
+        tags: ["HTML", "Tailwind CSS", "JavaScript"],
+        demo: "https://nevfeldeniz.github.io/",
+        github: "https://github.com/nevfeldeniz/nevfeldeniz.github.io",
+      },
+    ];
+
     const tl = document.getElementById("timeline-list");
     timeline.forEach((item) => {
       const el = document.createElement("div");
@@ -234,12 +247,31 @@
       sg.appendChild(el);
     });
 
+    const pg = document.getElementById("projects-grid");
+    projects.forEach((p) => {
+      const el = document.createElement("article");
+      el.className = "card reveal rounded-lg p-5 flex flex-col";
+      el.innerHTML = `
+        <h3 class="text-base font-medium text-slate-100 mb-2">${p.title}</h3>
+        <p class="text-sm text-slate-400 leading-relaxed mb-4 flex-1">${p.description}</p>
+        <div class="flex flex-wrap gap-1.5 mb-4">
+          ${p.tags.map(t => `<span class="text-xs px-2 py-0.5 rounded bg-slate-800 text-slate-400 border border-slate-700">${t}</span>`).join("")}
+        </div>
+        <div class="flex flex-wrap gap-3 text-sm">
+          <a href="${p.demo}" target="_blank" rel="noreferrer" class="text-slate-300 hover:text-white transition inline-flex items-center gap-1">
+            <i data-lucide="external-link" class="w-3.5 h-3.5"></i> Canlı Site
+          </a>
+          <a href="${p.github}" target="_blank" rel="noreferrer" class="text-slate-400 hover:text-slate-200 transition inline-flex items-center gap-1">
+            <i data-lucide="github" class="w-3.5 h-3.5"></i> GitHub
+          </a>
+        </div>`;
+      pg.appendChild(el);
+    });
+
     document.getElementById("copyright").textContent =
       `© ${new Date().getFullYear()} Nevfel Deniz Sürmeli`;
 
     lucide.createIcons();
-
-    const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           entry.target.classList.add("show");
