@@ -24,7 +24,7 @@
     }
 
     /* Toolbar */
-    .toolbar { max-width: 880px; margin: 0 auto 16px; text-align: center; }
+    .toolbar { max-width: 880px; margin: 0 auto 16px; text-align: center; display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; align-items: center; }
     .toolbar button {
       background: var(--brand); color: #fff; border: 0; padding: 10px 22px;
       border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600;
@@ -34,14 +34,12 @@
     .toolbar button:disabled { opacity: 0.6; cursor: wait; }
     .toolbar .btn-outline {
       background: transparent; color: var(--brand-dark); border: 1px solid var(--brand);
-      box-shadow: none; margin-left: 8px;
+      box-shadow: none;
     }
     .toolbar .btn-outline:hover { background: #f1f5f9; }
-    .toolbar span { display: block; margin-top: 8px; font-size: 12.5px; color: #4b5563; }
+    .toolbar span { width: 100%; margin-top: 4px; font-size: 12.5px; color: #4b5563; }
 
-    #pdf-export { max-width: 880px; margin: 0 auto; }
-    #pdf-export .page { page-break-inside: avoid; }
-    #pdf-export .page.en { page-break-before: always; }
+    .page { page-break-inside: avoid; }
 
     /* Page */
     .page {
@@ -120,13 +118,13 @@
 <body>
 
   <div class="toolbar">
-    <button id="downloadBtn" type="button" onclick="downloadPDF()">PDF İndir</button>
+    <button id="btnTr" type="button" onclick="downloadPDF('page-tr', 'Nevfel_Deniz_Surmeli_CV_TR.pdf', 'btnTr')">Türkçe PDF İndir</button>
+    <button id="btnEn" type="button" onclick="downloadPDF('page-en', 'Nevfel_Deniz_Surmeli_CV_EN.pdf', 'btnEn')">English PDF Download</button>
     <button type="button" class="btn-outline" onclick="window.print()">Yazdır</button>
-    <span>&ldquo;PDF İndir&rdquo; dosyayı bilgisayarınıza kaydeder. Türkçe + İngilizce CV tek PDF içindedir.</span>
+    <span>&ldquo;Türkçe PDF İndir&rdquo; veya &ldquo;English PDF Download&rdquo; ile istediğiniz dili ayrı ayrı indirebilirsiniz.</span>
   </div>
 
-  <div id="pdf-export">
-  <div class="page">
+  <div id="page-tr" class="page">
     <aside class="side">
       <div class="photo-wrap">
         <img class="photo" src="profile.png" alt="Nevfel Deniz Sürmeli" />
@@ -229,8 +227,7 @@
 
   <div class="lang-tag">English Version</div>
 
-  <!-- ===================== ENGLISH ===================== -->
-  <div class="page en">
+  <div id="page-en" class="page en">
     <aside class="side">
       <div class="photo-wrap">
         <img class="photo" src="profile.png" alt="Nevfel Deniz Sürmeli" />
@@ -331,20 +328,18 @@
     </main>
   </div>
 
-  </div><!-- /pdf-export -->
-
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <script>
-    async function downloadPDF() {
-      const btn = document.getElementById('downloadBtn');
+    async function downloadPDF(pageId, filename, btnId) {
+      const btn = document.getElementById(btnId);
       const original = btn.textContent;
       btn.disabled = true;
       btn.textContent = 'PDF hazırlanıyor...';
 
-      const element = document.getElementById('pdf-export');
+      const element = document.getElementById(pageId);
       const opt = {
         margin: [8, 8, 8, 8],
-        filename: 'Nevfel_Deniz_Surmeli_CV.pdf',
+        filename: filename,
         image: { type: 'jpeg', quality: 0.98 },
         html2canvas: {
           scale: 2,
@@ -353,7 +348,6 @@
           backgroundColor: '#ffffff',
         },
         jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-        pagebreak: { mode: ['css', 'legacy'], before: '.page.en' },
       };
 
       try {
