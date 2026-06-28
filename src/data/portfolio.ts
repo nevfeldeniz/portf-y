@@ -27,6 +27,11 @@ export const timeline = [
   },
   {
     year: "2025 — 2026",
+    title: "2. Sınıf",
+    description: "Yazılım mühendisliği eğitimime 2. sınıfta devam ediyorum.",
+  },
+  {
+    year: "2025 — 2026",
     title: "C++",
     description: "Nesne yönelimli programlama, bellek yönetimi ve veri yapıları üzerine çalışmalar.",
   },
@@ -34,11 +39,6 @@ export const timeline = [
     year: "2025 — 2026",
     title: "JavaScript",
     description: "Web geliştirme temelleri ve frontend çalışmalarına giriş.",
-  },
-  {
-    year: "2025 — 2026",
-    title: "2. Sınıf",
-    description: "Yazılım mühendisliği eğitimime 2. sınıfta devam ediyorum.",
   },
 ];
 
