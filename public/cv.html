@@ -44,8 +44,9 @@
     /* Page */
     .page {
       max-width: 880px; margin: 0 auto; background: #fff;
-      display: grid; grid-template-columns: 300px 1fr;
-      box-shadow: 0 10px 40px rgba(0,0,0,.12); overflow: hidden; border-radius: 6px;
+      display: grid; grid-template-columns: 280px 1fr;
+      align-items: stretch;
+      box-shadow: 0 10px 40px rgba(0,0,0,.12); border-radius: 6px;
     }
     .page + .page { margin-top: 24px; }
     .lang-tag {
@@ -54,17 +55,24 @@
     }
 
     /* Sidebar */
-    .side { background: var(--side); color: #e2e8f0; padding: 34px 26px; }
-    .photo-wrap { text-align: center; margin-bottom: 26px; }
-    .photo {
-      width: 136px; height: 136px; border-radius: 50%; object-fit: cover;
-      object-position: center 18%;
-      border: 3px solid #64748b;
-      display: block; margin: 0 auto;
+    .side { background: var(--side); color: #e2e8f0; padding: 28px 22px; min-height: 100%; }
+    .photo-frame {
+      width: 118px; height: 118px; flex-shrink: 0;
+      border-radius: 50%; overflow: hidden;
+      border: 3px solid #64748b; background: #1e293b;
     }
+    .photo {
+      width: 100%; height: 100%; display: block;
+      object-fit: cover; object-position: center 14%;
+    }
+    .profile-header {
+      display: flex; align-items: center; gap: 22px;
+      margin-bottom: 4px;
+    }
+    .profile-intro { min-width: 0; }
     .side h3 {
       font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase;
-      color: var(--brand); margin: 24px 0 12px; padding-bottom: 6px;
+      color: var(--brand); margin: 20px 0 10px; padding-bottom: 6px;
       border-bottom: 1px solid rgba(148,163,184,.25);
       display: flex; align-items: center; gap: 8px;
     }
@@ -82,7 +90,7 @@
     .pill { background: var(--side-soft); color: #cbd5e1; font-size: 11.5px; padding: 4px 10px; border-radius: 999px; }
 
     /* Main */
-    .main { padding: 38px 40px; }
+    .main { padding: 32px 36px 36px; }
     .name { font-size: 30px; letter-spacing: .5px; color: var(--side); }
     .role { color: var(--brand-dark); font-weight: 600; font-size: 15px; margin-top: 4px; }
     .divider { height: 3px; width: 56px; background: var(--brand); border-radius: 2px; margin: 16px 0 24px; }
@@ -114,6 +122,8 @@
     }
     @media (max-width: 640px) {
       .page { grid-template-columns: 1fr; }
+      .profile-header { flex-direction: column; text-align: center; }
+      .profile-intro { text-align: center; }
     }
   </style>
 </head>
@@ -128,10 +138,6 @@
 
   <div id="page-tr" class="page">
     <aside class="side">
-      <div class="photo-wrap">
-        <img class="photo" src="profile.png?v=4" alt="Nevfel Deniz Sürmeli" />
-      </div>
-
       <h3>
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z" fill="none"/><path d="M22 6l-10 7L2 6"/></svg>
         İletişim
@@ -183,8 +189,15 @@
     </aside>
 
     <main class="main">
-      <div class="name">Nevfel Deniz Sürmeli</div>
-      <div class="role">Software Engineer · 2. Sınıf Öğrencisi</div>
+      <div class="profile-header">
+        <div class="photo-frame">
+          <img class="photo" src="./profile.png?v=5" alt="Nevfel Deniz Sürmeli" />
+        </div>
+        <div class="profile-intro">
+          <div class="name">Nevfel Deniz Sürmeli</div>
+          <div class="role">Software Engineer · 2. Sınıf Öğrencisi</div>
+        </div>
+      </div>
       <div class="divider"></div>
 
       <section>
@@ -263,10 +276,6 @@
 
   <div id="page-en" class="page en">
     <aside class="side">
-      <div class="photo-wrap">
-        <img class="photo" src="profile.png?v=4" alt="Nevfel Deniz Sürmeli" />
-      </div>
-
       <h3>
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>
         Contact
@@ -318,8 +327,15 @@
     </aside>
 
     <main class="main">
-      <div class="name">Nevfel Deniz Sürmeli</div>
-      <div class="role">Software Engineer · 2nd Year Student</div>
+      <div class="profile-header">
+        <div class="photo-frame">
+          <img class="photo" src="./profile.png?v=5" alt="Nevfel Deniz Sürmeli" />
+        </div>
+        <div class="profile-intro">
+          <div class="name">Nevfel Deniz Sürmeli</div>
+          <div class="role">Software Engineer · 2nd Year Student</div>
+        </div>
+      </div>
       <div class="divider"></div>
 
       <section>
