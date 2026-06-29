@@ -80,12 +80,12 @@ export default function Hero() {
             <div className="absolute -inset-3 rounded-full bg-brand-500/20 blur-2xl" />
             <div className="relative w-44 h-44 md:w-56 md:h-56 rounded-full overflow-hidden ring-4 ring-brand-500/30">
               <Image
-                src="/profile.png?v=4"
+                src="/profile.png?v=5"
                 alt={personalInfo.name}
                 width={320}
                 height={320}
                 priority
-                className="h-full w-full object-cover object-[center_18%] scale-[1.08]"
+                className="h-full w-full object-cover object-[center_14%] scale-[1.06]"
               />
             </div>
           </div>
